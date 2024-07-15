@@ -1,0 +1,67 @@
+//        mediaPlayer.setAudioAttributes(
+//                new AudioAttributes.Builder()
+//                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+//                        .setUsage(AudioAttributes.USAGE_MEDIA)
+//                        .build()
+//        );
+//        try {
+//            mediaPlayer.setDataSource(this, myUri);
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
+//        } catch (IOException e) {
+//            Log.d("myTag",e.getMessage());
+//        }
+
+
+//        Uri myUri = Uri.fromFile(new File(file.toString())); // initialize Uri here
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+
+
+//        Uri uri = Uri.fromFile(new File(file.toString()));
+
+
+//        songs = (ArrayList) bundle.getParcelableArrayList("songList");
+
+
+//        songs = mainActivity.audioModelList;
+
+
+//        updateSeek = new Thread(){
+//            public void run(){
+//                int currentPosition = 0;
+//                try {
+//                    while (currentPosition < mediaPlayer.getDuration()) {
+//                        currentPosition = mediaPlayer.getCurrentPosition();
+//                        seekBar.setProgress(currentPosition);
+//                        sleep(500);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        updateSeek.start();
+
+
+searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchList = new ArrayList<>();
+                if(query.length() > 0){
+                    for(int i = 0; i < audioModelList.size();i++){
+                        if(audioModelList.get(i).getTitle().toUpperCase().contains(query.toUpperCase())){
+                            AudioModel audioModel = new AudioModel(audioModelList.get(i).getTitle(), audioModelList.get(i).getPath());
+                            searchList.add(audioModel);
+                        }
+                    }
+                    AudioAdapter searchAdapter = new AudioAdapter(searchList, MainActivity.this);
+                    recyclerView.setAdapter(searchAdapter);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
